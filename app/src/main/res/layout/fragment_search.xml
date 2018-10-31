@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.Search"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/horizantalsearchRV"
+       android:layout_width="match_parent"
+       android:layout_height="85dp">
+
+   </android.support.v7.widget.RecyclerView>
+    <EditText
+        android:id="@+id/edtsearch"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/round_corners"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:paddingRight="3dp"
+        android:paddingBottom="3dp"
+        android:hint="Search a service"
+        android:imeOptions="actionDone"
+        android:inputType="text"/>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.jaychang.srv.SimpleRecyclerView
+        android:layout_margin="5dp"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srv_layoutMode="linearVertical"
+        app:srv_showDivider="true"
+        app:srv_showLastDivider="true"
+        app:srv_dividerOrientation="both"
+        app:srv_dividerColor="@color/colorAccent"
+        app:srv_dividerPaddingLeft="5dp"
+        app:srv_dividerPaddingRight="5dp"
+        app:srv_dividerPaddingTop="5dp"
+        app:srv_dividerPaddingBottom="5dp" />
+
+        <ProgressBar
+            android:id="@+id/searchprogress"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="top|center"
+            android:layout_margin="20dp"
+            android:visibility="visible"/>
+    </FrameLayout>
+
+
+</LinearLayout>
