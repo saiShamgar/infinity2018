@@ -2,6 +2,7 @@ package com.example.sss.infinity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 {
     Toolbar toolbar;
     TextView mTitle;
+    boolean doubleBackToExitPressedOnce = false;
 
     public static final String TAG="MainActivity";
     public static final int ERROR_DIAOG_REQUEST=9001;
@@ -53,11 +55,6 @@ public class MainActivity extends AppCompatActivity
         {
             init();
         }
-
-
-
-
-
 
 
         setSupportActionBar(toolbar);
@@ -177,6 +174,26 @@ public class MainActivity extends AppCompatActivity
 
     public void setTitle(String title) {
         mTitle.setText(title);
+    }
+    @Override
+    public void onBackPressed()
+    {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            super.finish();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
 }

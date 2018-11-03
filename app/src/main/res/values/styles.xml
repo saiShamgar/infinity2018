@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
         <item name="cardViewStyle">@style/CardView</item>
-        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="AppTheme1" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -19,9 +18,14 @@
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
         <item name="cardViewStyle">@style/CardView</item>
         <item name="android:textColorPrimary">#FFFFFF</item>
+
     </style>
 
 
+
+    <style name="noAnimTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 
     <style name="myActionbar" parent="Widget.AppCompat.ActionBar">
         <!-- Customize your theme here. -->
