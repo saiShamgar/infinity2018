@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:allowBackup="true"
@@ -45,21 +45,17 @@
             android:theme="@style/AppTheme1" />
         <activity android:name=".LoginOrSignup" />
         <activity android:name=".LoginpageActivity" />
-        <activity android:name=".OtpActivity">
-        </activity>
-
+        <activity android:name=".OtpActivity"></activity>
 
         <receiver
             android:name=".helpers.SmsReceiver"
             android:enabled="true">
-            <intent-filter
-                android:priority="2147483647">
-                <action
-                    android:name="android.provider.Telephony.SMS_RECEIVED">
-                </action>
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
             </intent-filter>
-
         </receiver>
+
+        <activity android:name=".AllServices"></activity>
     </application>
 
 </manifest>

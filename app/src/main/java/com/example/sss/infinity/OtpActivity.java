@@ -38,17 +38,17 @@ public class OtpActivity extends AppCompatActivity
         statusSuccess=(TextView)findViewById(R.id.statusSuccess);
         loadingGif=(GifImageView)findViewById(R.id.loadingGif);
         successgif=(GifImageView)findViewById(R.id.successgif);
-       receiver = new BroadcastReceiver()
-        {
-
-            @Override
-            public void onReceive(Context context, Intent intent)
-            {
-                finish();
-            }
-
-
-        };
+//       receiver = new BroadcastReceiver()
+//        {
+//
+//            @Override
+//            public void onReceive(Context context, Intent intent)
+//            {
+//                finish();
+//            }
+//
+//
+//        };
 
         Bundle extras=getIntent().getExtras();
         if(extras!=null)
@@ -83,19 +83,19 @@ public class OtpActivity extends AppCompatActivity
         super.finish();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(receiver);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        IntentFilter filter = new IntentFilter();
-
-        filter.addAction("com.hello.action");
-        registerReceiver(receiver, filter);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        unregisterReceiver(receiver);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        IntentFilter filter = new IntentFilter();
+//
+//        filter.addAction("com.hello.action");
+//        registerReceiver(receiver, filter);
+//    }
 }

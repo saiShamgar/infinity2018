@@ -28,19 +28,40 @@
         android:text="Beauty services"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"/>
-
-
-
-
-    <com.jaychang.srv.SimpleRecyclerView
-        android:layout_margin="5dp"
-        android:id="@+id/servicesrecyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srv_layoutMode="grid"
-        app:srv_showDivider="true"
-        app:srv_gridSpanCount="3"
-        app:srv_dividerColor="@color/colorAccent" />
+        android:layout_height="match_parent">
+        <com.jaychang.srv.SimpleRecyclerView
+            android:layout_margin="5dp"
+            android:id="@+id/servicesrecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srv_layoutMode="grid"
+            app:srv_showDivider="true"
+            app:srv_gridSpanCount="3"
+            app:srv_dividerColor="@color/colorAccent" />
+
+        <ProgressBar
+            android:id="@+id/check_status_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="133dp"
+            android:layout_marginEnd="174dp" />
+
+        <TextView
+            android:id="@+id/check_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_status_progress"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp" />
+    </RelativeLayout>
+
+
+
+
 
 
 

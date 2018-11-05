@@ -33,9 +33,9 @@ public class SmsReceiver extends BroadcastReceiver
 
         }
 
-        Intent local = new Intent();
-        local.setAction("com.hello.action");
-        context.startActivity(local);
+//        Intent local = new Intent();
+//        local.setAction("com.hello.action");
+//        context.startActivity(local);
 
 
 
