@@ -73,8 +73,6 @@ public class OtpActivity extends AppCompatActivity
                     finish();
 
 
-
-
                 }
             },5000);
         }
