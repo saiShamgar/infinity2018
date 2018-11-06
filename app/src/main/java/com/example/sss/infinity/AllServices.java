@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.sss.infinity.Adapters.ProductAdapter;
 import com.example.sss.infinity.api.ApiUtils;
 import com.example.sss.infinity.api.CategoryApi;
+import com.example.sss.infinity.helpers.RecyclerItemClickListener;
 import com.example.sss.infinity.models.SubCategory;
 
 import retrofit2.Call;
@@ -62,8 +63,25 @@ public class AllServices extends AppCompatActivity {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(layoutManager);
 
+
+
                 ProductAdapter productAdapter = new ProductAdapter(subCategory);
                 recyclerView.setAdapter(productAdapter);
+
+                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position)
+                    {
+                     Intent details=new Intent(AllServices.this,DetailsActivity.class);
+                     startActivity(details);
+                     finish();
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+                        Toast.makeText(getApplicationContext(),"long clicked",Toast.LENGTH_SHORT).show();
+                    }
+                }));
             }
 
             @Override
@@ -71,6 +89,13 @@ public class AllServices extends AppCompatActivity {
                 Log.e("Failed"," : "+t.toString());
             }
         });
+
+
+
+
+
+
+
 
     }
 

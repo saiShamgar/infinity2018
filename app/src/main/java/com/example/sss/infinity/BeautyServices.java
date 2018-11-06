@@ -74,8 +74,6 @@ public class BeautyServices extends AppCompatActivity
             checkStatus.setText("Check Internet Connection !!!");
         }
 
-
-
     }
 
 

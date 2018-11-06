@@ -45,17 +45,22 @@
             android:theme="@style/AppTheme1" />
         <activity android:name=".LoginOrSignup" />
         <activity android:name=".LoginpageActivity" />
-        <activity android:name=".OtpActivity"></activity>
+        <activity android:name=".OtpActivity" />
 
         <receiver
             android:name=".helpers.SmsReceiver"
             android:enabled="true">
             <intent-filter android:priority="2147483647">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".AllServices"></activity>
+        <activity android:name=".AllServices" />
+        <activity android:name=".DetailsActivity"
+            android:theme="@style/AppTheme1"
+            android:label="Product details">
+
+        </activity>
     </application>
 
 </manifest>
