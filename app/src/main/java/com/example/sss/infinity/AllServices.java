@@ -65,16 +65,17 @@ public class AllServices extends AppCompatActivity {
 
 
 
-                ProductAdapter productAdapter = new ProductAdapter(subCategory);
+                ProductAdapter productAdapter = new ProductAdapter(subCategory,AllServices.this);
                 recyclerView.setAdapter(productAdapter);
 
                 recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                     Intent details=new Intent(AllServices.this,DetailsActivity.class);
-                     startActivity(details);
-                     finish();
+
+//                     Intent details=new Intent(AllServices.this,DetailsActivity.class);
+//                     startActivity(details);
+//                     finish();
                     }
 
                     @Override

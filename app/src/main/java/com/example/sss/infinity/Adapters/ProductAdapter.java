@@ -1,7 +1,9 @@
 package com.example.sss.infinity.Adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,11 @@ import com.example.sss.infinity.models.SubCategory;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private final SubCategory mDataSet;
+    private Context context;
 
-    public ProductAdapter(SubCategory mDataSet) {
+    public ProductAdapter(SubCategory mDataSet, Context context) {
         this.mDataSet = mDataSet;
+        this.context = context;
     }
 
     @NonNull
@@ -33,6 +37,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
 
         holder.description.setText(mDataSet.getSubCategoryObjects().get(position).getProductName());
+        holder.priceOriginal.setText("Rs."+mDataSet.getSubCategoryObjects().get(position).getProductPrice().toString());
+        if(mDataSet.getSubCategoryObjects().get(position).getProductDiscountPrice() > 0){
+            holder.discountPrice.setText("Rs."+mDataSet.getSubCategoryObjects().get(position).getProductDiscountPrice().toString());
+        }else
+            holder.discountPrice.setVisibility(View.INVISIBLE);
+        holder.increment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("increment", "checked");
+            }
+        });
 
     }
 
