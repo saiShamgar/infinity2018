@@ -24,6 +24,9 @@ public interface ProductDao {
     @Query("SELECT * FROM ProductDetails WHERE productCount > 0")
     List<ProductDetails> getNoOfProductInCart();
 
+    @Query("SELECT * FROM ProductDetails WHERE productCount > 0")
+    DataSource.Factory<Integer, ProductDetails> getOrderedProductDetails();
+
     @Query("SELECT * FROM ProductDetails WHERE productId = :productidS")
     List<ProductDetails> getSingleProducts(String productidS);
 

@@ -2,7 +2,6 @@ package com.example.sss.infinity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -13,28 +12,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.sss.infinity.api.ApiUtils;
-import com.example.sss.infinity.api.CategoryApi;
 import com.example.sss.infinity.db.ProductDatabase;
 import com.example.sss.infinity.db.ProductDetails;
 import com.example.sss.infinity.helpers.CheckConnection;
 import com.example.sss.infinity.models.ProductViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AllServices extends AppCompatActivity implements View.OnClickListener{
-
+public class Summary extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ProgressBar progressBar;
     CheckConnection checkConnection;
-    TextView count,totalPrice,summary;
+    TextView count,totalPrice,goToCart;
     private CommonUtils commonUtils;
 //    static PagedList<ProductDetails> list;
 
@@ -44,32 +37,23 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_services);
+        setContentView(R.layout.activity_summary);
 
         count = findViewById(R.id.sorder_quantity);
-        totalPrice = findViewById(R.id.total_price);
-        summary = findViewById(R.id.summary);
-        summary.setOnClickListener(this);
+        totalPrice = findViewById(R.id.stotal_price);
+        goToCart = findViewById(R.id.scontinue);
+
         commonUtils = new CommonUtils(this);
 
-        Intent intent = getIntent();
-        String categoryName = intent.getStringExtra("categoryName");
-        Toast.makeText(this,"c :"+categoryName,Toast.LENGTH_SHORT).show();
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.stoolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         if (getSupportActionBar() != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
-            actionbar.setTitle(categoryName);
-        }
-        checkConnection = new CheckConnection(this);
-        if(checkConnection.isConnected()){
-            new fatchAndInsertToDbAsyncTask().execute(categoryName);
+            actionbar.setTitle("Summary");
         }
 
-
-        recyclerView = findViewById(R.id.recycler_view_sub_category);
+        recyclerView = findViewById(R.id.srecycler_view_sub_category);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
@@ -86,14 +70,21 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
             ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
         }
 
-        progressBar = findViewById(R.id.progressBar_sub_cat);
-        progressBar.setVisibility(View.VISIBLE);
-
-
-
-        CategoryApi categoryApi = ApiUtils.getCategoryApi();
+        subscribeUi();
 
     }
+
+    private void subscribeUi() {
+        viewModel.getOrderListLiveData().observe(this, (@Nullable PagedList<ProductDetails> productDetail)-> {
+            adapter.submitList(productDetail);
+            Log.e("size summery",":"+productDetail.size());
+            new UpdateCartAsyncTask().execute();
+        });
+    }
+
+
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -101,58 +92,14 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
         return true;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.summary:
-                Intent intent = new Intent(this,Summary.class);
-                startActivity(intent);
-                break;
-        }
-    }
-
-    private class fatchAndInsertToDbAsyncTask extends AsyncTask<String, Void, String> {
-
-
-        @Override
-        protected String doInBackground(String... param) {
-            commonUtils.fetchProductsAndInsertToDb(param[0]);
-            return param[0];
-        }
-
-        @Override
-        protected void onPostExecute(String Cat) {
-            subscribeUi(Cat);
-            progressBar.setVisibility(View.INVISIBLE);
-            super.onPostExecute(Cat);
-        }
-
-
-    }
-
-    private void subscribeUi(String Cat) {
-
-        viewModel.getListLiveData(Cat).observe(this, (@Nullable PagedList<ProductDetails> productDetails)-> {
-
-                if(!productDetails.isEmpty()){
-                    adapter.submitList(productDetails);
-
-//                    recyclerView.setAdapter(adapter);
-//                    adapter.notifyDataSetChanged();
-                    Log.e("size",":"+productDetails.size());
-                    new UpdateCartAsyncTask().execute();
-                }
-            }
-        );
-    }
-
     private class UpdateCartAsyncTask extends AsyncTask<Void, Void, OrderSummary> {
-        final ProductDatabase mDb = ProductDatabase.getsInstance(AllServices.this);
+        final ProductDatabase mDb = ProductDatabase.getsInstance(Summary.this);
         OrderSummary det = new OrderSummary();
 
         @Override
         protected OrderSummary doInBackground(Void... voids) {
             List<ProductDetails> productDetails = mDb.productDao().getNoOfProductInCart();
+            Log.e("list Size:",""+productDetails.size());
             int count = 0;
             Double price = 0.00;
             for (int i=0;i<productDetails.size();i++){

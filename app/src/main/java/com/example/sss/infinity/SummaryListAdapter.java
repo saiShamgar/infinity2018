@@ -2,7 +2,6 @@ package com.example.sss.infinity;
 
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
@@ -14,18 +13,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sss.infinity.db.ProductDatabase;
 import com.example.sss.infinity.db.ProductDetails;
 import com.example.sss.infinity.helpers.DialogAction;
 
-import java.util.List;
-import java.util.concurrent.Executors;
-
-public class ProductListAdapter extends PagedListAdapter<ProductDetails, ProductListAdapter.ProductViewHolder> {
-
-
-    private static final int INCREMENT_QTY = 11;
-    private static final int DECREMENT_QTY = 22;
+class SummaryListAdapter extends PagedListAdapter<ProductDetails, SummaryListAdapter.ProductViewHolder> {
 
     private static DiffUtil.ItemCallback<ProductDetails> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<ProductDetails>() {
@@ -50,7 +41,7 @@ public class ProductListAdapter extends PagedListAdapter<ProductDetails, Product
     private Context mCtx;
     DialogAction dialogAction;
 
-    public ProductListAdapter(Context mCtx) {
+    public SummaryListAdapter(Context mCtx) {
         super(DIFF_CALLBACK);
         this.mCtx = mCtx;
         dialogAction  = new DialogAction(mCtx);
@@ -65,37 +56,9 @@ public class ProductListAdapter extends PagedListAdapter<ProductDetails, Product
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-
-        final ProductDetails product = getItem(position);
-
-        holder.description.setText(product.getProductName());
-        holder.priceOriginal.setText(String.valueOf(product.getProductPrice().toString()));
-        holder.discountPrice.setText(String.valueOf(product.getProductDiscountPrice()));
-        holder.quantity.setText(String.valueOf(product.getProductCount()));
-
-        holder.increment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                incrementOrDecrementOrderQuantity(INCREMENT_QTY,product.getId(),product.getProductCount()+1);
-            }
-        });
-
-        holder.decrement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                incrementOrDecrementOrderQuantity(DECREMENT_QTY,product.getId(),product.getProductCount()-1);
-            }
-        });
-
+    public void onBindViewHolder(@NonNull SummaryListAdapter.ProductViewHolder productViewHolder, int i) {
 
     }
-
-    private void incrementOrDecrementOrderQuantity(int operation, int id, int count) {
-        new operateToDb().execute(operation,id,count);
-
-    }
-
 
     public class ProductViewHolder extends RecyclerView.ViewHolder{
         private TextView description,priceOriginal,discountPrice,offerPercentage,quantity;
@@ -113,45 +76,6 @@ public class ProductListAdapter extends PagedListAdapter<ProductDetails, Product
 
             increment = itemView.findViewById(R.id.increment);
             decrement = itemView.findViewById(R.id.decrement);
-        }
-    }
-
-    private class operateToDb extends AsyncTask<Integer,Void,Void> {
-        final ProductDatabase mDb = ProductDatabase.getsInstance(mCtx);
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialogAction.showDialog("Updating", "Wait Please..");
-        }
-
-
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-            List<ProductDetails> productDetails;
-
-
-            Executors.newSingleThreadExecutor().execute(new Runnable() {
-                @Override
-                public void run() {
-                    mDb.productDao().updateCount(params[2],params[1]);
-//                    List<ProductDetails> productDetails = mDb.productDao().getNoOfProductInCart();
-//                    for (int i=0;i<productDetails.size();i++){
-//
-//                    }
-                }
-            });
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-//            notifyDataSetChanged();
-//            notifyItemChanged(1);
-            super.onPostExecute(aVoid);
-            dialogAction.hideDialog();
         }
     }
 }

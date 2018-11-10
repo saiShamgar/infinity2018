@@ -56,11 +56,11 @@
         </receiver>
 
         <activity android:name=".AllServices" />
-        <activity android:name=".DetailsActivity"
-            android:theme="@style/AppTheme1"
-            android:label="Product details">
-
-        </activity>
+        <activity
+            android:name=".DetailsActivity"
+            android:label="Product details"
+            android:theme="@style/AppTheme1"></activity>
+        <activity android:name=".Summary"></activity>
     </application>
 
 </manifest>
