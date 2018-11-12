@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sss.infinity.helpers.SmsReceiver;
+
 import org.w3c.dom.Text;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -26,7 +28,7 @@ public class OtpActivity extends AppCompatActivity
     private TextView verifyText,statusSuccess;
 
     private GifImageView loadingGif,successgif;
-    private BroadcastReceiver receiver;
+    private SmsReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,18 +40,7 @@ public class OtpActivity extends AppCompatActivity
         statusSuccess=(TextView)findViewById(R.id.statusSuccess);
         loadingGif=(GifImageView)findViewById(R.id.loadingGif);
         successgif=(GifImageView)findViewById(R.id.successgif);
-//       receiver = new BroadcastReceiver()
-//        {
-//
-//            @Override
-//            public void onReceive(Context context, Intent intent)
-//            {
-//                finish();
-//            }
-//
-//
-//        };
-
+       receiver = new SmsReceiver();
         Bundle extras=getIntent().getExtras();
         if(extras!=null)
         {
@@ -82,20 +73,20 @@ public class OtpActivity extends AppCompatActivity
     public void finish() {
         super.finish();
     }
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        unregisterReceiver(receiver);
+        finish();
+    }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        unregisterReceiver(receiver);
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        IntentFilter filter = new IntentFilter();
-//
-//        filter.addAction("com.hello.action");
-//        registerReceiver(receiver, filter);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("close");
+        registerReceiver(receiver, filter);
+    }
 }

@@ -2,6 +2,7 @@ package com.example.sss.infinity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -72,7 +73,8 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
         //Off the blinking of recycler view
 
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
-        if (animator instanceof SimpleItemAnimator) {
+        if (animator instanceof SimpleItemAnimator)
+        {
             ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
         }
 
@@ -87,8 +89,6 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
             new UpdateCartAsyncTask().execute(false);
         });
     }
-
-
 
 
 
@@ -118,14 +118,18 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
             Log.e("list Size:",""+productDetails.size());
             int count = 0;
             Double price = 0.00;
+            String ids ="";
             for (int i=0;i<productDetails.size();i++){
 
+                ids=ids+productDetails.get(i).getProductId()+",";
                 count = count+productDetails.get(i).getProductCount();
                 price = price+productDetails.get(i).getProductPrice()*productDetails.get(i).getProductCount();
             }
             det.setCart(voids[0]);
             det.setCount(count);
             det.setPrice(price);
+            det.setIds(ids);
+
             return det;
         }
 
@@ -138,9 +142,17 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
                     //go to cart activity
                     // productDetails is available with list of products
 
-                    Toast.makeText(Summary.this,"No of Product : "+productDetails.size(),Toast.LENGTH_SHORT).show();
-                    Toast.makeText(Summary.this,"Total Qty : "+aVoid.getCount(),Toast.LENGTH_SHORT).show();
-                    Toast.makeText(Summary.this,"Total Price : "+aVoid.getPrice(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Summary.this,"ids : "+aVoid.getIds(),Toast.LENGTH_LONG).show();
+                    String pids=aVoid.getIds().toString();
+                    Intent payment=new Intent(Summary.this,PaymentActivity.class);
+                    Bundle extras=new Bundle();
+                    extras.putString("productId",pids);
+                    extras.putString("count", String.valueOf(aVoid.getCount()));
+                    extras.putDouble("totalcost",aVoid.getPrice());
+                    payment.putExtras(extras);
+                    startActivity(payment);
+                    finish();
+
                 }
             }
             count.setText(String.valueOf(aVoid.getCount()));
@@ -162,6 +174,17 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
         private int count;
         private Double price;
 
+        public String getIds() {
+            return ids;
+        }
+
+        public void setIds(String ids)
+        {
+            this.ids = ids;
+        }
+
+        private String ids;
+
         public int getCount() {
             return count;
         }
@@ -178,4 +201,6 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
             this.price = price;
         }
     }
+
+
 }

@@ -25,6 +25,7 @@ public class SmsReceiver extends BroadcastReceiver
             smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             smsIntent.putExtra("messageNumber",messages.getOriginatingAddress());
             smsIntent.putExtra("message",messages.getMessageBody());
+            smsIntent.setAction("close");
             context.startActivity(smsIntent);
             Toast.makeText(context,"Sms received from: "
                     +messages.getOriginatingAddress()+"\n"+messages.getMessageBody(),Toast.LENGTH_SHORT).show();

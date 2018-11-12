@@ -73,4 +73,8 @@ dependencies {
 
     implementation 'com.android.volley:volley:1.1.0-rc1'
 
+    implementation 'com.razorpay:checkout:1.4.9'
+
+    implementation 'com.android.volley:volley:1.1.0-rc1'
+
 }
