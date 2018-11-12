@@ -12,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sss.infinity.db.ProductDatabase;
 import com.example.sss.infinity.db.ProductDetails;
@@ -22,7 +24,7 @@ import com.example.sss.infinity.models.ProductViewModel;
 
 import java.util.List;
 
-public class Summary extends AppCompatActivity {
+public class Summary extends AppCompatActivity implements View.OnClickListener{
 
     RecyclerView recyclerView;
     ProgressBar progressBar;
@@ -34,6 +36,8 @@ public class Summary extends AppCompatActivity {
     private ProductViewModel viewModel;
     private ProductListAdapter adapter;
 
+    List<ProductDetails> productDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +46,10 @@ public class Summary extends AppCompatActivity {
         count = findViewById(R.id.sorder_quantity);
         totalPrice = findViewById(R.id.stotal_price);
         goToCart = findViewById(R.id.scontinue);
+        goToCart.setOnClickListener(Summary.this);
 
         commonUtils = new CommonUtils(this);
+
 
         Toolbar toolbar = findViewById(R.id.stoolbar);
         setSupportActionBar(toolbar);
@@ -78,7 +84,7 @@ public class Summary extends AppCompatActivity {
         viewModel.getOrderListLiveData().observe(this, (@Nullable PagedList<ProductDetails> productDetail)-> {
             adapter.submitList(productDetail);
             Log.e("size summery",":"+productDetail.size());
-            new UpdateCartAsyncTask().execute();
+            new UpdateCartAsyncTask().execute(false);
         });
     }
 
@@ -92,13 +98,23 @@ public class Summary extends AppCompatActivity {
         return true;
     }
 
-    private class UpdateCartAsyncTask extends AsyncTask<Void, Void, OrderSummary> {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.scontinue:
+                new UpdateCartAsyncTask().execute(true);
+                break;
+        }
+    }
+
+    private class UpdateCartAsyncTask extends AsyncTask<Boolean, Void, OrderSummary> {
         final ProductDatabase mDb = ProductDatabase.getsInstance(Summary.this);
         OrderSummary det = new OrderSummary();
 
         @Override
-        protected OrderSummary doInBackground(Void... voids) {
-            List<ProductDetails> productDetails = mDb.productDao().getNoOfProductInCart();
+        protected OrderSummary doInBackground(Boolean... voids) {
+
+            productDetails = mDb.productDao().getNoOfProductInCart();
             Log.e("list Size:",""+productDetails.size());
             int count = 0;
             Double price = 0.00;
@@ -107,6 +123,7 @@ public class Summary extends AppCompatActivity {
                 count = count+productDetails.get(i).getProductCount();
                 price = price+productDetails.get(i).getProductPrice()*productDetails.get(i).getProductCount();
             }
+            det.setCart(voids[0]);
             det.setCount(count);
             det.setPrice(price);
             return det;
@@ -115,7 +132,17 @@ public class Summary extends AppCompatActivity {
         @Override
         protected void onPostExecute(OrderSummary aVoid) {
             super.onPostExecute(aVoid);
+            if(aVoid.getCount()>0){
+                if(aVoid.isCart()){
+                    // Continue is clicked
+                    //go to cart activity
+                    // productDetails is available with list of products
 
+                    Toast.makeText(Summary.this,"No of Product : "+productDetails.size(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Summary.this,"Total Qty : "+aVoid.getCount(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Summary.this,"Total Price : "+aVoid.getPrice(),Toast.LENGTH_SHORT).show();
+                }
+            }
             count.setText(String.valueOf(aVoid.getCount()));
             totalPrice.setText(String.valueOf(aVoid.getPrice()));
 
@@ -123,6 +150,15 @@ public class Summary extends AppCompatActivity {
     }
 
     private class OrderSummary {
+        public boolean isCart() {
+            return cart;
+        }
+
+        public void setCart(boolean cart) {
+            this.cart = cart;
+        }
+
+        private boolean cart;
         private int count;
         private Double price;
 

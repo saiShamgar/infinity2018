@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sss.infinity.db.ProductDatabase;
 import com.example.sss.infinity.db.ProductDetails;
@@ -84,7 +85,10 @@ public class ProductListAdapter extends PagedListAdapter<ProductDetails, Product
         holder.decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                incrementOrDecrementOrderQuantity(DECREMENT_QTY,product.getId(),product.getProductCount()-1);
+                if(product.getProductCount()<=0){
+                    Toast.makeText(mCtx,"Quantity cannot be -ve",Toast.LENGTH_SHORT).show();
+                }else
+                    incrementOrDecrementOrderQuantity(DECREMENT_QTY,product.getId(),product.getProductCount()-1);
             }
         });
 
