@@ -95,7 +95,8 @@ public class ProductListAdapter extends PagedListAdapter<ProductDetails, Product
 
     }
 
-    private void incrementOrDecrementOrderQuantity(int operation, int id, int count) {
+    private void incrementOrDecrementOrderQuantity(int operation, int id, int count)
+    {
         new operateToDb().execute(operation,id,count);
 
     }

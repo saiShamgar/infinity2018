@@ -44,18 +44,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         toolbar=(Toolbar)findViewById(R.id.maintoolbar);
         mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
 
-
-
-        if(isservicesOk())
-        {
-            init();
-        }
-
+        isservicesOk();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(toolbar.getTitle());
@@ -77,23 +69,9 @@ public class MainActivity extends AppCompatActivity
 
         navigation.setSelectedItemId(R.id.navigation_home);
 
-
     }
 
-    private void init()
-    {
-        userlocation=(LinearLayout)findViewById(R.id.userlocation);
-        userlocation.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent location=new Intent(MainActivity.this,UserLocation.class);
-                startActivity(location);
-                finish();
-            }
-        });
-    }
+
 
     public boolean isservicesOk()
     {

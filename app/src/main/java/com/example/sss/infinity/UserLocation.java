@@ -1,6 +1,8 @@
 package com.example.sss.infinity;
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,7 +18,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.example.sss.infinity.Adapters.CustomWindowAdapter;
+import com.example.sss.infinity.api.AlertMsgBox1;
+import com.example.sss.infinity.api.Appcontroller;
+import com.example.sss.infinity.api.CustomJsonObjectRequest;
 import com.example.sss.infinity.models.PlaceInfo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -38,9 +51,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,7 +70,7 @@ public class UserLocation extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean mlocation_permission_granted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
+    private AlertMsgBox1 alertbox;
     private GoogleMap map;
     private ArrayList<LatLng> listpoints=new ArrayList<LatLng>();
     private Marker mMarker;
@@ -65,7 +81,8 @@ public class UserLocation extends AppCompatActivity implements OnMapReadyCallbac
     private Location location;
 
     private TextView getCurrentLocation;
-
+    private TextView confirmlocation;
+    boolean req_loc=false;
 
 
 
@@ -75,9 +92,10 @@ public class UserLocation extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_user_location);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        alertbox=new AlertMsgBox1(this);
 
         getCurrentLocation=(TextView)findViewById(R.id.getCurrentLocation);
+        confirmlocation=(TextView)findViewById(R.id.confirmlocation);
 
         getCurrentLocation.setOnClickListener(new View.OnClickListener()
         {
@@ -87,6 +105,8 @@ public class UserLocation extends AppCompatActivity implements OnMapReadyCallbac
                 getLocationPermission();
             }
         });
+
+
 
 
 
@@ -245,8 +265,31 @@ public class UserLocation extends AppCompatActivity implements OnMapReadyCallbac
                             .title(placeInfo.getName())
                             .snippet(snippet);
 
+                    SharedPreferences location=getApplicationContext().getSharedPreferences("location",MODE_PRIVATE);
+                    SharedPreferences.Editor editor=location.edit();
+
+                    editor.putString("loc",snippet);
+                    editor.commit();
+
                     mMarker = map.addMarker(options);
 
+                    getCurrentLocation.setVisibility(View.GONE);
+                    confirmlocation.setVisibility(View.VISIBLE);
+
+                    //get usernum and store into database
+                    SharedPreferences pref=getApplicationContext().getSharedPreferences("getnumber",MODE_PRIVATE);
+                   String number= pref.getString("regnum",null);
+                    confirmlocation.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View view)
+                        {
+                            Intent back=new Intent(UserLocation.this,Summary.class);
+                            startActivity(back);
+                            finish();
+
+                        }
+                    });
                 } catch (NullPointerException e) {
                     Log.d(TAG, "move cemara: NullPointerException  " + e.getMessage());
                 }
@@ -276,6 +319,7 @@ public class UserLocation extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+
 
 
     @Override
@@ -309,11 +353,13 @@ public class UserLocation extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed()
     {
+
         super.onBackPressed();
 
-        Intent back=new Intent(UserLocation.this,MainActivity.class);
+        Intent back=new Intent(UserLocation.this,Summary.class);
         startActivity(back);
         finish();
+
     }
 
     @Override

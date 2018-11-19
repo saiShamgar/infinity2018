@@ -118,10 +118,18 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
             Log.e("list Size:",""+productDetails.size());
             int count = 0;
             Double price = 0.00;
-            String ids ="";
+            String ids = "";
             for (int i=0;i<productDetails.size();i++){
 
-                ids=ids+productDetails.get(i).getProductId()+",";
+              String  pd=productDetails.get(i).getProductId();
+              if (i>0)
+              {
+                  ids += ',';
+
+              }
+
+              ids += pd;
+
                 count = count+productDetails.get(i).getProductCount();
                 price = price+productDetails.get(i).getProductPrice()*productDetails.get(i).getProductCount();
             }
@@ -143,10 +151,10 @@ public class Summary extends AppCompatActivity implements View.OnClickListener{
                     // productDetails is available with list of products
 
                     Toast.makeText(Summary.this,"ids : "+aVoid.getIds(),Toast.LENGTH_LONG).show();
-                    String pids=aVoid.getIds().toString();
+                    String pids= aVoid.getIds();
                     Intent payment=new Intent(Summary.this,PaymentActivity.class);
                     Bundle extras=new Bundle();
-                    extras.putString("productId",pids);
+                    extras.putString("productId", pids);
                     extras.putString("count", String.valueOf(aVoid.getCount()));
                     extras.putDouble("totalcost",aVoid.getPrice());
                     payment.putExtras(extras);

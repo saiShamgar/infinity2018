@@ -148,21 +148,6 @@ public class BeautyServices extends AppCompatActivity
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void onBackPressed()
     {

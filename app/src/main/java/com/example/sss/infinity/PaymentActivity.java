@@ -2,6 +2,8 @@ package com.example.sss.infinity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ import com.razorpay.PaymentResultListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -38,12 +41,18 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     private Button paymentButton;
     private TextView txt_ord_id,txt_tot_cst;
     private Double cst;
+    private SharedPreferences pref1;
+    private String regnumber;
+    private SharedPreferences.Editor editor;
+    private String loc;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+         pref1=getApplicationContext().getSharedPreferences("getnumber",MODE_PRIVATE);
+         regnumber=pref1.getString("regnum",null);
         setContentView(R.layout.activity_payment);
         extras=getIntent().getExtras();
 
@@ -66,12 +75,29 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         // Payment button created by you in XML layout
 
+        SharedPreferences location=getApplicationContext().getSharedPreferences("location",MODE_PRIVATE);
+         editor=location.edit();
+
+
+         loc=location.getString("loc",null);
         paymentButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                startPayment();
+
+
+                if (loc!=null)
+                {
+                       startPayment();
+                }
+                else
+                {
+                    Intent location=new Intent(PaymentActivity.this,UserLocation.class);
+                    startActivity(location);
+                    finish();
+                }
+
             }
         });
 
@@ -97,7 +123,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
             JSONObject preFill = new JSONObject();
             preFill.put("email", "enter email");
-            preFill.put("contact", "enter number");
+            preFill.put("contact", regnumber);
 
             options.put("prefill", preFill);
 
@@ -121,20 +147,78 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
             String pid=extras.getString("productId");
             String ct=extras.getString("count");
-
-
             ordered_details(razorpayPaymentID,pid,cst,ct);
-
+            storinglocation(loc);
             Toast.makeText(this, "Payment Successful: " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e(TAG, "Exception in onPaymentSuccess", e);
         }
     }
 
+    private void storinglocation(String loc)
+    {
+        String url = Appcontroller.API_SERVER_URL+"location.php?location="+loc+"&userid="+regnumber;
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("", "");
+
+
+
+        CustomJsonObjectRequest request = new CustomJsonObjectRequest(url, params,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // TODO Auto-generated method stub
+                        try {
+
+                            //int message = response.getInt("status");
+                            String success = response.getString("status");
+                            if (success .equals("location stored"))
+                            {
+                                Toast.makeText(PaymentActivity.this, success, Toast.LENGTH_LONG).show();
+
+                              editor.clear();
+                              editor.commit();
+
+                            }
+                            else {
+                                String message = response.getString("status");
+                                alertbox.alertMsgBox(message);
+                            }
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        if (error instanceof TimeoutError)
+                        {
+                            Toast.makeText(PaymentActivity.this, "Request Time out error. Your internet connection is too slow to work", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(PaymentActivity.this, "Connection Server error", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NetworkError || error instanceof NoConnectionError) {
+                            Toast.makeText(PaymentActivity.this, "Network connection error! Check your internet Setting", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ParseError) {
+                            Toast.makeText(PaymentActivity.this, "Parsing error", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+        request.setShouldCache(false);
+        request.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Appcontroller.getInstance().addToRequestQueue(request);
+    }
+
     private void ordered_details(String razorpayPaymentID, String pid, Double cst, String ct)
     {
+
         alertbox.showProgressDialog();
-        String url =Appcontroller.API_SERVER_URL+"orederedItems.php?userid=123"+"&products="+pid+"&cost="+cst+"&items="+ct+"&ordered_id="+orderedid();
+        String url =Appcontroller.API_SERVER_URL+"orederedItems.php?userid="+regnumber+"&products="+pid+"&cost="+cst+"&items="+ct+"&ordered_id="+orderedid();
 
         HashMap<String, String> params = new HashMap<>();
         params.put("", "");
@@ -142,7 +226,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         Log.d(TAG, url+params.toString());
 
         CustomJsonObjectRequest request = new CustomJsonObjectRequest(url, params,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONObject>()
+                {
                     @Override
                     public void onResponse(JSONObject response) {
                         // TODO Auto-generated method stub
@@ -218,7 +303,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         finish();
     }
 
-    public static String orderedid() {
+    public static String orderedid()
+    {
         int randomPin   =(int)(Math.random()*9000)+1000;
         String otp  =String.valueOf(randomPin);
         return otp;

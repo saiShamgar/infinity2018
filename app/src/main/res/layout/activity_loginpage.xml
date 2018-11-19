@@ -71,8 +71,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/black"
-                android:layout_marginBottom="2dp"
-                />
+                android:maxLength="10"
+                android:digits="0123456789"
+                android:focusableInTouchMode="true"/>
         </LinearLayout>
 
         </LinearLayout>
@@ -96,41 +97,9 @@
             android:layout_marginTop="10dp"
             android:transitionName="btn"
             android:foreground="@drawable/ripple"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign up"
-            android:layout_gravity="center"
-           android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:textSize="15dp"/>
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:gravity="center|bottom">
 
-        <TextView
-            android:id="@+id/txtskip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Skip for now"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-          android:textStyle="bold"
-            android:textSize="16dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:background="@drawable/roundcorner_gray"
-            android:gravity="center"
-            android:textColor="#fff"/>
-
-    </LinearLayout>
 
 </LinearLayout>

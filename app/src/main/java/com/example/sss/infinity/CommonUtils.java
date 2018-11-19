@@ -37,7 +37,8 @@ public class CommonUtils {
 
                for(int i=0; i<list.size();i++){
                    final int position = i;
-                   Executors.newSingleThreadExecutor().execute(new Runnable() {
+                   Executors.newSingleThreadExecutor().execute(new Runnable()
+                   {
                        @Override
                        public void run() {
                            List<ProductDetails> pDetails = mDb.productDao().getSingleProducts(list.get(position).getProductId());

@@ -23,6 +23,7 @@ import com.example.sss.infinity.api.CategoryApi;
 import com.example.sss.infinity.db.ProductDatabase;
 import com.example.sss.infinity.db.ProductDetails;
 import com.example.sss.infinity.helpers.CheckConnection;
+import com.example.sss.infinity.helpers.RecyclerItemClickListener;
 import com.example.sss.infinity.models.ProductViewModel;
 
 import java.util.ArrayList;
@@ -77,12 +78,17 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
 
         adapter = new ProductListAdapter(this);
 
+
+
         recyclerView.setAdapter(adapter);
+
+
 
         //Off the blinking of recycler view
 
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
-        if (animator instanceof SimpleItemAnimator) {
+        if (animator instanceof SimpleItemAnimator)
+        {
             ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
         }
 
@@ -137,6 +143,24 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
                 if(!productDetails.isEmpty()){
                     adapter.submitList(productDetails);
 
+                    recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position)
+                        {
+
+                            Intent details=new Intent(AllServices.this,DetailsActivity.class);
+                            startActivity(details);
+
+                        }
+
+                        @Override
+                        public void onItemLongClick(View view, int position)
+                        {
+                            Toast.makeText(getApplicationContext(),"long clicked",Toast.LENGTH_SHORT).show();
+                        }
+                    }));
+
+
 //                    recyclerView.setAdapter(adapter);
 //                    adapter.notifyDataSetChanged();
                     Log.e("size",":"+productDetails.size());
@@ -162,6 +186,8 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
             }
             det.setCount(count);
             det.setPrice(price);
+
+
             return det;
         }
 
@@ -172,18 +198,22 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
             count.setText(String.valueOf(aVoid.getCount()));
             totalPrice.setText(String.valueOf(aVoid.getPrice()));
 
+
         }
     }
 
-    private class OrderSummary {
+    private class OrderSummary
+    {
         private int count;
         private Double price;
 
-        public int getCount() {
+        public int getCount()
+        {
             return count;
         }
 
-        public void setCount(int count) {
+        public void setCount(int count)
+        {
             this.count = count;
         }
 
@@ -191,7 +221,8 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
             return price;
         }
 
-        public void setPrice(Double price) {
+        public void setPrice(Double price)
+        {
             this.price = price;
         }
     }

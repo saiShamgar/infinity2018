@@ -2,6 +2,7 @@ package com.example.sss.infinity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -28,20 +29,33 @@ public class SplashScreenActivity extends AppCompatActivity
                 new String[]{Manifest.permission.READ_SMS},
                 MY_PERMISSIONS_REQUEST_SMS_RECEIVE);
         btngetstarted=(Button)findViewById(R.id.btngetstarted);
-
+        SharedPreferences pref=getApplicationContext().getSharedPreferences("getnumber",MODE_PRIVATE);
+        String regnumber=pref.getString("regnum",null);
         btngetstarted.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                if (regnumber!=null)
+                {
+                    Intent login=new Intent(SplashScreenActivity.this,MainActivity.class);
+                    ActivityOptionsCompat optionsCompat=ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(SplashScreenActivity.this,findViewById(R.id.transitionImage),"myimage");
 
-                Intent login=new Intent(SplashScreenActivity.this,LoginpageActivity.class);
-                ActivityOptionsCompat optionsCompat=ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(SplashScreenActivity.this,findViewById(R.id.transitionImage),"myimage");
 
+                    startActivity(login,optionsCompat.toBundle());
+                    finish();
+                }
+                else
+                {
+                    Intent login=new Intent(SplashScreenActivity.this,LoginpageActivity.class);
+                    ActivityOptionsCompat optionsCompat=ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(SplashScreenActivity.this,findViewById(R.id.transitionImage),"myimage");
 
-                startActivity(login,optionsCompat.toBundle());
-                finish();
+                    startActivity(login,optionsCompat.toBundle());
+                    finish();
+                }
+
             }
         });
 
