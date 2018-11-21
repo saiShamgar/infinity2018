@@ -143,22 +143,22 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
                 if(!productDetails.isEmpty()){
                     adapter.submitList(productDetails);
 
-                    recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position)
-                        {
-
-                            Intent details=new Intent(AllServices.this,DetailsActivity.class);
-                            startActivity(details);
-
-                        }
-
-                        @Override
-                        public void onItemLongClick(View view, int position)
-                        {
-                            Toast.makeText(getApplicationContext(),"long clicked",Toast.LENGTH_SHORT).show();
-                        }
-                    }));
+//                    recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(View view, int position)
+//                        {
+//
+//                            Intent details=new Intent(AllServices.this,DetailsActivity.class);
+//                            startActivity(details);
+//
+//                        }
+//
+//                        @Override
+//                        public void onItemLongClick(View view, int position)
+//                        {
+//                            Toast.makeText(getApplicationContext(),"long clicked",Toast.LENGTH_SHORT).show();
+//                        }
+//                    }));
 
 
 //                    recyclerView.setAdapter(adapter);

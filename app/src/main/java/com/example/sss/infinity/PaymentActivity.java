@@ -218,7 +218,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     {
 
         alertbox.showProgressDialog();
-        String url =Appcontroller.API_SERVER_URL+"orederedItems.php?userid="+regnumber+"&products="+pid+"&cost="+cst+"&items="+ct+"&ordered_id="+orderedid();
+        String url =Appcontroller.API_SERVER_URL+"orederedItems.php?userid="+regnumber+"&products="+pid+"&cost="+cst+"&items="+ct+"&ordered_id="+orderedid()+"&payid="+razorpayPaymentID;
 
         HashMap<String, String> params = new HashMap<>();
         params.put("", "");
