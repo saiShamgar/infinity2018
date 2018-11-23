@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    tools:layout_editor_absoluteY="25dp"
+    android:layout_marginBottom="3dp">
+
+    <TextView
+        android:id="@+id/txtorderedId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="order id:"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/txtItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Services:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@id/txtorderedId"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/txtcost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total cost:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@id/txtItems"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/txtstatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtItemsdb"
+        android:layout_alignTop="@+id/textView9"
+        android:text="Ordered"
+        android:textColor="#1b9902"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtorderedId_db"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txtorderedId"
+        android:layout_alignStart="@+id/txtstatus"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/txtItemsdb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+       android:layout_toRightOf="@id/txtItems"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/txtorderedId_db" />
+
+    <TextView
+        android:id="@+id/txtcostdb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtstatus"
+        android:layout_centerVertical="true"
+        android:text="TextView"
+        android:layout_marginTop="3dp"/>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@id/txtcost"
+        android:layout_margin="5dp" />
+     <TextView
+         android:id="@+id/txtdate"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Date:"
+         android:textStyle="bold"
+         android:textColor="@color/black"
+         android:layout_below="@id/textView9"
+         android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/txtdatedb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtstatus"
+        android:layout_alignTop="@+id/txtdate"
+        android:text="date"
+        android:textColor="#a10606"
+        android:textStyle="bold" />
+
+</RelativeLayout>

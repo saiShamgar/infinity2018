@@ -163,6 +163,8 @@ public class AllServices extends AppCompatActivity implements View.OnClickListen
 
 //                    recyclerView.setAdapter(adapter);
 //                    adapter.notifyDataSetChanged();
+
+
                     Log.e("size",":"+productDetails.size());
                     new UpdateCartAsyncTask().execute();
                 }

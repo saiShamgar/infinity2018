@@ -28,31 +28,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:weightSum="1">
 
                     <TextView
+                        android:id="@+id/txtproductname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Product name"
-                        android:textStyle="bold"
-                        android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:layout_gravity="bottom"
                         android:layout_weight="1"
-                        android:layout_gravity="bottom"/>
+                        android:text="Product name"
+                        android:textColor="#000"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"/>
 
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="40dp"
-                            android:drawableRight="@drawable/ic_loyalty_black_24dp"
-                            android:gravity="right|center_vertical"
-                            android:textColor="#df0606"
-                            android:textStyle="bold"
-                            android:text="off 34%"
-                            android:textSize="20dp"
-                            android:layout_gravity="end"
-                            android:layout_weight="1"
-                            android:layout_marginRight="20dp"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -83,6 +72,7 @@
                         android:layout_marginLeft="5dp">
 
                         <TextView
+                            android:id="@+id/txtproductcost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -94,21 +84,6 @@
 
 
                 </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/red_round_background"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="60dp"
-                    android:layout_marginBottom="2dp"
-                    android:text="Add to cart"
-                    android:textColor="#fff"
-                    android:textSize="18dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:foreground="@drawable/ripple"
-                    android:gravity="center"
-                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -126,7 +101,7 @@
                    <TextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:text="Package Includes"
+                       android:text="Service Details"
                        android:textSize="18dp"
                        android:textColor="#000"
                        android:textStyle="bold"
@@ -140,10 +115,11 @@
                     android:gravity="center"
                     android:layout_margin="2dp">
                 <TextView
+                    android:id="@+id/txtdescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="1st row"
-                    android:textSize="12dp"
+                    android:textSize="16dp"
                     android:textColor="#000"
                     android:gravity="center_vertical"
                    android:layout_margin="2dp" />

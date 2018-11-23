@@ -2,6 +2,7 @@ package com.example.sss.infinity;
 
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -71,9 +72,24 @@ public class ProductListAdapter extends PagedListAdapter<ProductDetails, Product
         final ProductDetails product = getItem(position);
 
         holder.description.setText(product.getProductName());
-        holder.priceOriginal.setText(String.valueOf(product.getProductPrice().toString()));
+        holder.priceOriginal.setText("Price: "+"\u20B9"+String.valueOf(product.getProductPrice().toString()));
         holder.discountPrice.setText(String.valueOf(product.getProductDiscountPrice()));
         holder.quantity.setText(String.valueOf(product.getProductCount()));
+
+        //String desc=product.getProductDesc();
+
+        holder.imageView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent details=new Intent(mCtx,DetailsActivity.class);
+                details.putExtra("name",product.getProductName());
+                details.putExtra("price",String.valueOf(product.getProductPrice()));
+                details.putExtra("desc",product.getProductDesc());
+                mCtx.startActivity(details);
+            }
+        });
 
         holder.increment.setOnClickListener(new View.OnClickListener() {
             @Override

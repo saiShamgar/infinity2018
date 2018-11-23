@@ -63,9 +63,12 @@
                 android:text="Rs.599"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.07999998" />
+                app:layout_constraintVertical_bias="0.309"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/price_discount"
@@ -77,7 +80,8 @@
                 android:text="Rs.251"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/price_original" />
+                app:layout_constraintTop_toBottomOf="@+id/price_original"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/price_discount_percentage"
@@ -92,7 +96,8 @@
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/price_discount" />
+                app:layout_constraintTop_toBottomOf="@+id/price_discount"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
