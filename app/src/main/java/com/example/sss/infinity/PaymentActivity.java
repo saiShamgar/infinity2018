@@ -3,6 +3,7 @@ package com.example.sss.infinity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.example.sss.infinity.api.AlertMsgBox1;
 import com.example.sss.infinity.api.Appcontroller;
 import com.example.sss.infinity.api.CustomJsonObjectRequest;
+import com.example.sss.infinity.db.ProductDatabase;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
@@ -149,7 +151,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             String ct=extras.getString("count");
             ordered_details(razorpayPaymentID,pid,cst,ct);
             storinglocation(loc);
+
             Toast.makeText(this, "Payment Successful: " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
+            new UpdateCartCountAsyncTask().execute();
+
         } catch (Exception e) {
             Log.e(TAG, "Exception in onPaymentSuccess", e);
         }
@@ -310,4 +315,12 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         return otp;
     }
 
+    private class UpdateCartCountAsyncTask extends AsyncTask<Void, Void, Void> {
+        final ProductDatabase mDb = ProductDatabase.getsInstance(PaymentActivity.this);
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mDb.productDao().updateCountToZero(0);
+            return null;
+        }
+    }
 }

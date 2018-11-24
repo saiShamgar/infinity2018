@@ -1,64 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.Search"
-    android:orientation="vertical">
-
-    <!-- TODO: Update blank fragment layout -->
-
-   <android.support.v7.widget.RecyclerView
-       android:id="@+id/horizantalsearchRV"
-       android:layout_width="match_parent"
-       android:layout_height="85dp">
-
-   </android.support.v7.widget.RecyclerView>
-    <EditText
-        android:id="@+id/edtsearch"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/round_corners"
-        android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_search_black_24dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="3dp"
-        android:paddingRight="3dp"
-        android:paddingBottom="3dp"
-        android:hint="Search a service"
-        android:imeOptions="actionDone"
-        android:inputType="text"/>
-
-
-
+    tools:context=".Fragments.Search">
     <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.jaychang.srv.SimpleRecyclerView
-        android:layout_margin="5dp"
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srv_layoutMode="linearVertical"
-        app:srv_showDivider="true"
-        app:srv_showLastDivider="true"
-        app:srv_dividerOrientation="both"
-        app:srv_dividerColor="@color/colorAccent"
-        app:srv_dividerPaddingLeft="5dp"
-        app:srv_dividerPaddingRight="5dp"
-        app:srv_dividerPaddingTop="5dp"
-        app:srv_dividerPaddingBottom="5dp" />
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search_material"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <ProgressBar
-            android:id="@+id/searchprogress"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="top|center"
-            android:layout_margin="20dp"
-            android:visibility="visible"/>
+            </android.support.v7.widget.SearchView>
+
+            <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_material"
+                tools:context=".MainActivity">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/search_material_recyclerview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
     </FrameLayout>
 
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

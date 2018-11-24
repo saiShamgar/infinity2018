@@ -4,4 +4,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="SMS_API_KEY">603712f87db055a1061c2d702b141f73</string>
+    <string name="status">com.example.sss.infinity.status</string>
+    <string name="status_preference">com.example.sss.infinity.status_preference</string>
 </resources>

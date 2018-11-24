@@ -15,6 +15,7 @@ import com.example.sss.infinity.db.ProductDetails;
 public class ProductViewModel extends AndroidViewModel {
     private LiveData<PagedList<ProductDetails>> pListLiveData;
     private LiveData<PagedList<ProductDetails>> orderListLiveData;
+    private LiveData<PagedList<ProductDetails>> searchListLiveData;
     private Application application;
 
     public ProductViewModel(@NonNull Application application) {
@@ -47,4 +48,16 @@ public class ProductViewModel extends AndroidViewModel {
     }
 
 
+    public LiveData<PagedList<ProductDetails>> getSearchListLiveData(String s){
+
+        searchListLiveData = null;
+        String query = "%".concat(s).concat("%");
+
+        DataSource.Factory<Integer, ProductDetails> factory = ProductDatabase.getsInstance(application).productDao().getAllSearchProductDetails(query);
+
+        PagedList.Config pagConfig = new PagedList.Config.Builder().setPageSize(3).setEnablePlaceholders(false).build();
+        LivePagedListBuilder<Integer, ProductDetails> pagedListBuilder = new LivePagedListBuilder(factory, pagConfig);
+        searchListLiveData = pagedListBuilder.build();
+        return searchListLiveData;
+    }
 }

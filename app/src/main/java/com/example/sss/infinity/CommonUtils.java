@@ -20,8 +20,10 @@ import retrofit2.Response;
 public class CommonUtils {
 
     private Context context;
+    SharedPreferenceConfig sharedPreferenceConfig;
     public CommonUtils(Context context) {
         this.context = context;
+        sharedPreferenceConfig = new SharedPreferenceConfig(context);
 
     }
 
@@ -55,6 +57,15 @@ public class CommonUtils {
                                                0);
                                //insert product object to room
                                insertProductToDbLocal(singleProduct, mDb);
+                           }else {
+                               if(pDetails.get(0).getProductPrice() != list.get(position).getProductPrice() ||
+                                       pDetails.get(0).getProductDiscountPrice() != list.get(position).getProductDiscountPrice()){
+
+                                   mDb.productDao().updatePrice(list.get(position).getProductPrice(),
+                                           list.get(position).getProductDiscountPrice(),
+                                           pDetails.get(0).getId());
+                               }
+
                            }
                        }
                    });

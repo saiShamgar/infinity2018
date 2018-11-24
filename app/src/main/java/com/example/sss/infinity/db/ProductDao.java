@@ -45,4 +45,12 @@ public interface ProductDao {
     @Query("Update ProductDetails SET status = :status WHERE id = :pId")
     void updateStatus(int status,int pId);
 
+    @Query("Update ProductDetails SET productPrice = :price , productDiscountPrice = :dprice WHERE id = :pId")
+    void updatePrice(Double price,Double dprice,int pId);
+
+    @Query("Update ProductDetails SET productCount = :count")
+    void updateCountToZero(int count);
+
+    @Query("SELECT * FROM ProductDetails WHERE productName LIKE :s ORDER BY id DESC")
+    DataSource.Factory<Integer,ProductDetails> getAllSearchProductDetails(String s);
 }
