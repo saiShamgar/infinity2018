@@ -8,12 +8,12 @@ import android.util.Log;
 
 import com.example.sss.infinity.models.SubCategoryObject;
 
-@Database(entities = {ProductDetails.class}, version = 4,exportSchema = false)
+@Database(entities = {ProductDetails.class}, version = 6,exportSchema = false)
 public abstract class ProductDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = ProductDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
-    private static final String DATABASE_NAME = "order.db";
+    private static final String DATABASE_NAME = "orderi.db";
     private static ProductDatabase sInstance;
 
     public static ProductDatabase getsInstance(Context context){

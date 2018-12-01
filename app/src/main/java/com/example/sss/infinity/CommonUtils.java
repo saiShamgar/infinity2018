@@ -52,6 +52,7 @@ public class CommonUtils {
                                                list.get(position).getProductName(),
                                                list.get(position).getProductDesc(),
                                                list.get(position).getProductPrice(),
+                                               list.get(position).getProductImageUrl(),
                                                list.get(position).getProductDiscountPrice(),
                                                0,
                                                0);

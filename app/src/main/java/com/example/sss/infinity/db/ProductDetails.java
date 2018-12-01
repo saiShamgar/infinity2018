@@ -16,28 +16,31 @@ public class ProductDetails {
     private String productName;
     private String productDesc;
     private Double productPrice;
+    private String productUrl;
     private Double productDiscountPrice;
     private int productCount;
     private int status;
     @Ignore
-    public ProductDetails(String categoryName, String productId, String productName, String productDesc, Double productPrice, Double productDiscountPrice, int productCount, int status) {
+    public ProductDetails(String categoryName, String productId, String productName, String productDesc, Double productPrice, String productUrl, Double productDiscountPrice, int productCount, int status) {
         this.categoryName = categoryName;
         this.productId = productId;
         this.productName = productName;
         this.productDesc = productDesc;
         this.productPrice = productPrice;
+        this.productUrl = productUrl;
         this.productDiscountPrice = productDiscountPrice;
         this.productCount = productCount;
         this.status = status;
     }
 
-    public ProductDetails(int id, String categoryName, String productId, String productName, String productDesc, Double productPrice, Double productDiscountPrice, int productCount, int status) {
+    public ProductDetails(int id, String categoryName, String productId, String productName, String productDesc, Double productPrice, String productUrl, Double productDiscountPrice, int productCount, int status) {
         this.id = id;
         this.categoryName = categoryName;
         this.productId = productId;
         this.productName = productName;
         this.productDesc = productDesc;
         this.productPrice = productPrice;
+        this.productUrl = productUrl;
         this.productDiscountPrice = productDiscountPrice;
         this.productCount = productCount;
         this.status = status;
@@ -89,6 +92,14 @@ public class ProductDetails {
 
     public void setProductPrice(Double productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public String getProductUrl() {
+        return productUrl;
+    }
+
+    public void setProductUrl(String productUrl) {
+        this.productUrl = productUrl;
     }
 
     public Double getProductDiscountPrice() {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.sss.infinity.db.ProductDatabase;
 import com.example.sss.infinity.db.ProductDetails;
 import com.example.sss.infinity.helpers.DialogAction;
@@ -75,7 +78,19 @@ public class ProductListAdapter extends PagedListAdapter<ProductDetails, Product
         holder.priceOriginal.setText("Price: "+"\u20B9"+String.valueOf(product.getProductPrice().toString()));
         holder.discountPrice.setText(String.valueOf(product.getProductDiscountPrice()));
         holder.quantity.setText(String.valueOf(product.getProductCount()));
-
+        if(!product.getProductUrl().equals("")){
+            CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(mCtx);
+            circularProgressDrawable.setStrokeWidth(5f);
+            circularProgressDrawable.setCenterRadius(30f);
+            circularProgressDrawable.start();
+            Glide.with(mCtx)
+                    .load(product.getProductUrl())
+                    .placeholder(circularProgressDrawable)
+                    .error(R.drawable.infinity_logo)
+                    // read original from cache (if present) otherwise download it and decode it
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.imageView);
+        }
         //String desc=product.getProductDesc();
 
         holder.imageView.setOnClickListener(new View.OnClickListener()

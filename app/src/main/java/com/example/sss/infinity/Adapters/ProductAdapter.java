@@ -136,6 +136,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 subCategoryObject.getProductName(),
                 subCategoryObject.getProductDesc(),
                 subCategoryObject.getProductPrice(),
+                subCategoryObject.getProductImageUrl(),
                 subCategoryObject.getProductDiscountPrice(),
                 quantity,
                 1);
